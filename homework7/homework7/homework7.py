@@ -110,4 +110,3 @@ def question5() :
     e2 = lr.evaluate(dimension_constraint(q2[1]+3,Xout),Yout,q2[0])
     print(1-e1,1-e2)
 
-question5()
