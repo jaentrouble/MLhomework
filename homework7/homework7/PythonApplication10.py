@@ -52,14 +52,16 @@ def pla(N:int, Tfunc: np.array) -> np.array :
 def pla_X(x: list, y: list, N: int) -> np.array :
     """ returns learned 'g : w0+w1x1+w2x2 = 0' in array([w0,w1,w2]) form, N iterations """
     s = len(x[0])
+    X = np.array(x)
+    Y = np.array(y)
     g = np.zeros(1*s)   # g=array([0,0,....,0])
     order=list(range(len(x)))
     for n in range(N):
         random.shuffle(order)
         chk=0
         for m in order:
-            if sign(x[m]@g) != y[m]:
-                g = g + y[m]*x[m]
+            if sign(X[m]@g) != Y[m]:
+                g = g + Y[m]*X[m]
                 chk +=1
         if chk==0:
             break
