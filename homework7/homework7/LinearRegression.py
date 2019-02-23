@@ -34,7 +34,7 @@ def x_generation(n: int, d: int) -> list :
     for a in range(n) :
         t=[1]
         for b in range(d) :
-            t.append(pa.numgen())
+            t.append(round(pa.numgen(),2))
         x.append(t)
     return x
 

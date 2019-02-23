@@ -3,9 +3,7 @@ import PythonApplication10 as pa
 import numpy as np
 import cvxopt as co
 import copy
-co.solvers.options['abstol'] = 1e-20
-co.solvers.options['reltol'] = 1e-20
-co.solvers.options['feastol'] = 1e-20
+
 
 def chkvalid(y: list) -> bool :
     """returns false if all y's 1 or -1"""
@@ -23,14 +21,17 @@ def svm(sx: list, sy: list) -> list :
     P = np.zeros((N,N))
     for k in range(N):
         for l in range(N):
-            P[k][l] = round(Y[k]*Y[l]*(X[k]@X[l]),9)
+            tmp= round(Y[k]*Y[l]*(X[k]@X[l]),5)
+            P[k][l]=tmp
     print(np.linalg.matrix_rank(P))
     P = co.matrix(P)
     q = co.matrix((-1)*np.ones(N))
     A = co.matrix(np.reshape(Y,(1,len(Y))))
     A = co.matrix(A, (1,len(Y)), 'd')
     b = co.matrix(np.array([[0.0]]))
-    sol = co.solvers.qp(P,q,A=A,b=b)
+    G = co.matrix((-1)*np.ones((1,N)))
+    h = co.matrix(np.array([[0.0]]))
+    sol = co.solvers.qp(P,q,G=G,h=h,A=A,b=b)
     alpha = np.array(sol['x'])       #2-D
     w = np.zeros(len(X[0]))
     for m in range(len(X)):
@@ -44,7 +45,7 @@ def svm(sx: list, sy: list) -> list :
     return [np.insert(w,0,thres),sup]
 
 def question8():
-    N=4
+    N=5
     sbp = 0  #svm beats pla
     for n in range(100):
         while True:
