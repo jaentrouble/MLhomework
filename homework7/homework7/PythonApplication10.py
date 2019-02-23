@@ -41,13 +41,26 @@ def pla(N:int, Tfunc: np.array) -> np.array :
     """ returns learned 'g : w0+w1x1+w2x2 = 0' in array([w0,w1,w2]) form and saves in 'worksheet' """
     s = np.size(Tfunc)
     g = np.zeros(1*s)   # g=array([0,0,....,0])
-    num=0
     while num<int(N):
         t = np.array([])
         for k in range(s):           #generate a new 'test' point
             t = np.append(t,numgen())
         if sign(t@g) != sign(t@Tfunc):
             g = g + sign(t@Tfunc)*t
-            num += 1                                   #count only when updated by misclassified points
     return g
 
+def pla_X(x: list, y: list, N: int) -> np.array :
+    """ returns learned 'g : w0+w1x1+w2x2 = 0' in array([w0,w1,w2]) form, N iterations """
+    s = len(x[0])
+    g = np.zeros(1*s)   # g=array([0,0,....,0])
+    order=list(range(len(x)))
+    for n in range(N):
+        random.shuffle(order)
+        chk=0
+        for m in order:
+            if sign(x[m]@g) != y[m]:
+                g = g + y[m]*x[m]
+                chk +=1
+        if chk==0:
+            break
+    return g
