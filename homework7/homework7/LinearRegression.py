@@ -29,7 +29,7 @@ def evaluate(x: list, y: list, g: np.array ) -> float :
     return correct/len(y)
 
 def x_generation(n: int, d: int) -> list :
-    """creates a list of (x0,...,xd) * n rows"""
+    """creates a list of (x0,...,xd) * n rows, x0=1 (artificial)"""
     x=[]
     for a in range(n) :
         t=[1]
